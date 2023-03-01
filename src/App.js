@@ -7,24 +7,52 @@ import PostList from "./components/PostList";
 import MyButton from "./components/UI/button/MyButton";
 import MyInput from "./components/UI/input/MyInput";
 import PostForm from "./components/PostForm";
+import MySelect from "./components/UI/select/MySelect";
 
 function App() {
   const [posts, setPosts] = useState([
-    { id: 1, title: "JavaScript", body: "Description" },
-    { id: 2, title: "JavaScript 2", body: "Description" },
-    { id: 3, title: "JavaScript 3", body: "Description" },
+    { id: 1, title: "aa", body: "tt" },
+    { id: 2, title: "ff 2", body: "nn" },
+    { id: 3, title: "rr 3", body: "kk" },
   ]);
 
+  const [selectedSort, setSelectedSort] = useState('')
 
-  
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
   }
 
+const removePost = (post) => {
+    setPosts(posts.filter(p => p.id !== post.id))
+}
+
+const sortPosts = (sort) => {
+  setSelectedSort(sort);
+  setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
+}
+
   return (
     <div className="App">
       <PostForm create={createPost}/>
-      <PostList posts={posts} title="Posts" />
+      <hr style={{margin: '15px 0'}}/>
+      <div>
+        <MySelect 
+          value={selectedSort}
+          onChange={sortPosts}
+          defaultValue="Sort by..."
+          option={[
+            {value: 'title', name: 'By name'},
+            {value: 'body', name: 'By description'}
+          ]}
+        />
+      </div>
+      {posts.length
+      ? <PostList remove={removePost} posts={posts} title="Posts" />
+      : <h1 style={{textAlign: 'center'}}>
+         No posts!
+        </h1>
+      }
+      
     </div>
   );
 }
