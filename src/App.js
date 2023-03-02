@@ -19,6 +19,7 @@ function App() {
   ]);
 
   const [filter, setFilter] = useState({sort: '', query: ''})
+  const [modal, setModal] = useState(false)
 
 
   const sortedPosts = useMemo(() => {
@@ -36,6 +37,7 @@ function App() {
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
+    setModal(false)
   };
 
   const removePost = (post) => {
@@ -45,8 +47,13 @@ function App() {
 
   return (
     <div className="App">
-      <MyModal></MyModal>
-      <PostForm create={createPost} />
+      <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>
+        Create post
+      </MyButton>
+      <MyModal visible={modal} setVisible={setModal}>
+        <PostForm create={createPost} />
+      </MyModal>
+      
       <hr style={{ margin: "15px 0" }} />
       <PostFilter 
         filter={filter} 
