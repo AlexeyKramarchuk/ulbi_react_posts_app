@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo, useEffect } from "react";
 import Counter from "./components/Counter";
 import ClassCounter from "./components/ClassCounter";
 import "./components/styles/App.css";
@@ -10,35 +10,33 @@ import PostForm from "./components/PostForm";
 import MySelect from "./components/UI/select/MySelect";
 import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/MyModal/MyModal";
+import { usePosts } from "./components/hooks/usePosts";
+import axios from 'axios';
+import PostService from "./API/PostService";
 
 function App() {
-  const [posts, setPosts] = useState([
-    { id: 1, title: "aa", body: "tt" },
-    { id: 2, title: "ff 2", body: "nn" },
-    { id: 3, title: "rr 3", body: "kk" },
-  ]);
 
+  const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({sort: '', query: ''})
   const [modal, setModal] = useState(false)
+  const sortedSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const [isPostLoading, setIsPostLoading] = useState(false)
 
-
-  const sortedPosts = useMemo(() => {
-    if(filter.sort) {
-      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
-    }
-      return posts;
-
-  }, [filter.sort, posts])
-
-  const sortedSearchedPosts = useMemo(() => {
-    return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query))
-  }, [filter.query, sortedPosts])
-
+  useEffect(() => {
+    fetchPosts();
+  }, [])
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
     setModal(false)
   };
+
+  async function fetchPosts() {
+    setIsPostLoading(true)
+    const posts = await PostService.getAll();
+    setPosts(posts)
+    setIsPostLoading(false)
+  }
 
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id));
@@ -59,7 +57,10 @@ function App() {
         filter={filter} 
         setFilter={setFilter} 
       />
-        <PostList remove={removePost} posts={sortedSearchedPosts} title="Posts" />
+      {isPostLoading
+          ? <h1>ZAGRUZKA</h1>
+          : <PostList remove={removePost} posts={sortedSearchedPosts} title="Posts" />
+      }
     </div>
   );
 }
