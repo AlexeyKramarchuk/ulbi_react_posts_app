@@ -9,6 +9,7 @@ import MyInput from "./components/UI/input/MyInput";
 import PostForm from "./components/PostForm";
 import MySelect from "./components/UI/select/MySelect";
 import PostFilter from "./components/PostFilter";
+import MyModal from "./components/UI/MyModal/MyModal";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -44,20 +45,17 @@ function App() {
 
   return (
     <div className="App">
+      <MyModal></MyModal>
       <PostForm create={createPost} />
       <hr style={{ margin: "15px 0" }} />
       <PostFilter 
         filter={filter} 
         setFilter={setFilter} 
       />
-      {sortedSearchedPosts.length 
-      ? 
         <PostList remove={removePost} posts={sortedSearchedPosts} title="Posts" />
-      : 
-        <h1 style={{ textAlign: "center" }}>No posts!</h1>
-      }
     </div>
   );
 }
 
 export default App;
+
