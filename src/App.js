@@ -24,8 +24,10 @@ function App() {
   const sortedSearchedPosts = usePosts(posts, filter.sort, filter.query)
   const [fetchPosts, isPostLoading, postError] = useFetching( async () => {
     const posts = await PostService.getAll();
-    setPosts(posts)
+    setPosts(posts);
   })
+
+  
 
   useEffect(() => {
     fetchPosts();
@@ -36,7 +38,6 @@ function App() {
     setModal(false)
   };
 
-  
 
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id));
