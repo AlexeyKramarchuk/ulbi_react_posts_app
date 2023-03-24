@@ -1,24 +1,23 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import MyInput from "./UI/input/MyInput";
 import MyButton from "./UI/button/MyButton";
 
-const PostForm = ( {create} ) => {
+const PostForm = ({ create }) => {
+  const [post, setPost] = useState({ title: "", body: "" });
 
-    const [post, setPost] = useState({title: '', body: ''});
+  const addNewPost = (e) => {
+    e.preventDefault();
 
-    const addNewPost = (e) => {
-        e.preventDefault();
-        const newPost = {
-            ...post, id: Date.now()
-        }
-        create(newPost)
-        setPost({title: '', body: ''})
-    
-      };
+    const newPost = {
+      ...post,
+      id: Date.now(),
+    };
+    create(newPost);
+    setPost({ title: "", body: "" });
+  };
 
   return (
-    
-    <form>
+    <form onSubmit={addNewPost}>
       {/*Управляемый компонент*/}
       <MyInput
         value={post.title}
@@ -32,7 +31,7 @@ const PostForm = ( {create} ) => {
         type="text"
         placeholder="description of post"
       />
-      <MyButton onClick={addNewPost}>Create Post</MyButton>
+      <MyButton>Create Post</MyButton>
     </form>
   );
 };
