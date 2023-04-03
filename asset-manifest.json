@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ulbi_react_posts_app/static/css/main.56453884.css",
+    "main.js": "/ulbi_react_posts_app/static/js/main.5a814c36.js",
+    "index.html": "/ulbi_react_posts_app/index.html",
+    "main.56453884.css.map": "/ulbi_react_posts_app/static/css/main.56453884.css.map",
+    "main.5a814c36.js.map": "/ulbi_react_posts_app/static/js/main.5a814c36.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.56453884.css",
+    "static/js/main.5a814c36.js"
+  ]
+}
